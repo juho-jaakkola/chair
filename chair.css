@@ -1,0 +1,43 @@
+
+#container {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.part {
+    position: relative;
+    width: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: auto;
+
+    transition: transform 2s;
+}
+
+#backrest {
+    height: 300px;
+    transform-origin: bottom right;
+}
+
+#seat {
+    height: 160px;
+    left: 0px;
+    bottom: 0px;
+    transform: rotate(90deg);
+    transform-origin: top right;
+}
+
+#footrest {
+    height: 160px;
+    right: 140px;
+    bottom: 184px;
+    
+    transform: rotate(0deg);
+    transform-origin: top left;
+    
+    transition: transform 2s, right 2s, bottom 2s;
+}
+
+button {
+    width: 100px;
+}
