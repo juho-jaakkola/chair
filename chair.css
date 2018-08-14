@@ -38,6 +38,14 @@
     transition: transform 2s, right 2s, bottom 2s;
 }
 
+#controls {
+    margin: auto;
+}
+
+#controls td {
+    text-align: center;
+}
+
 button {
     width: 100px;
 }
