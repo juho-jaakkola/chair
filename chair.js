@@ -36,8 +36,8 @@ window.onload = function(){
 
             // Hack to compensate the fact that rotating the seat
             // changes also location of the footrest.
-            document.getElementById("footrest").style.right = "140px";
-            document.getElementById("footrest").style.bottom = "184px";
+            document.getElementById("footrest").style.right = "97px";
+            document.getElementById("footrest").style.top = "158px";
         }
     });
 
@@ -50,8 +50,8 @@ window.onload = function(){
 
             // Hack to compensate the fact that rotating the seat
             // changes also location of the footrest.
-            document.getElementById("footrest").style.right = "110px";
-            document.getElementById("footrest").style.bottom = "260px";
+            document.getElementById("footrest").style.right = "78px";
+            document.getElementById("footrest").style.top = "87px";
         }
     });
 };

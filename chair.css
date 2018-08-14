@@ -6,36 +6,43 @@
 
 .part {
     position: relative;
+    display: inline-block;
     width: 20px;
     border: 1px solid black;
-    border-radius: 10px;
+    border-radius: 20px;
     margin: auto;
 
     transition: transform 2s;
 }
 
+#chair {
+    height: 600px;
+}
+
 #backrest {
     height: 300px;
-    transform-origin: bottom right;
+    left: 95px;
+    top: 18px;
+    transform-origin: 11px 290px;
 }
 
 #seat {
     height: 160px;
-    left: 0px;
-    bottom: 0px;
+    left: 71px;
+    top: 158px;
     transform: rotate(90deg);
-    transform-origin: top right;
+    transform-origin: 10px 10px;
 }
 
 #footrest {
     height: 160px;
-    right: 140px;
-    bottom: 184px;
+    right: 97px;
+    top: 158px;
     
     transform: rotate(0deg);
-    transform-origin: top left;
+    transform-origin: 11px 11px;
     
-    transition: transform 2s, right 2s, bottom 2s;
+    transition: transform 2s, right 2s, top 2s;
 }
 
 #controls {
