@@ -1,75 +1,97 @@
+/**
+ * Controls chair parts with two sets of up/down buttons.
+ */
 window.onload = function(){
+    // Define each chair part, starting degree and min/max degree.
+    var seat     = new Part('seat',     90, 90, 120);
+    var footrest = new Part('footrest',  0,  0,  100);
+    var backrest = new Part('backrest',  0,  0,  70);
 
-    // Define chair parts.
-    var seat = document.getElementById('seat');
-    var footrest = document.getElementById('footrest');
-    var backrest = document.getElementById('backrest');
-
-    // Define initial positions.
-    seat.style.transform = "rotate(90deg)";
-    footrest.style.transform = "rotate(0deg)";
-    backrest.style.transform = "rotate(0deg)";
-
-    // Define buttons.
+    // Buttons for controlling the footrest and backrest.
     var footrestUp = document.getElementById("footrest-up");
     var footrestDown = document.getElementById("footrest-down");
+
+    // Buttons for controlling the seat.
     var seatUp = document.getElementById("seat-up");
     var seatDown = document.getElementById("seat-down");
 
-    // Footrest and backrest controls.
+    // Rotate footrest and backrest up.
     footrestUp.addEventListener('click', function() {
-        footrest.style.background = "red";
-        backrest.style.background = "red";
-
-        var newFootDeg = getCurrentRotation(footrest) - 70;
-        footrest.style.transform = "rotate(" + newFootDeg + "deg)";
-
-        var newBackDeg = getCurrentRotation(backrest) - 30;
-        backrest.style.transform = "rotate(" + newBackDeg + "deg)";
+        footrest.rotate(-70)
+        backrest.rotate(-40);
     });
+
+    // Rotate footrest and backrest down.
     footrestDown.addEventListener('click', function() {
-        footrest.style.background = "green";
-        backrest.style.background = "green";
-
-        var newFootDeg = getCurrentRotation(footrest) + 70;
-        footrest.style.transform = "rotate(" + newFootDeg + "deg)";
-
-        var newBackDeg = getCurrentRotation(backrest) + 30;
-        backrest.style.transform = "rotate(" + newBackDeg + "deg)";
+        footrest.rotate(70);
+        backrest.rotate(40);
     });
 
-    // Seat controls.
+    // Rotates seat up.
     seatUp.addEventListener('click', function() {
-        seat.style.background = "blue";
-        seat.style.transform = "rotate(90deg)";
+        // Rotate the other parts only if not already at minimum position.
+        if (seat.rotate(-30)) {
+            footrest.rotate(-30);
+            backrest.rotate(-30);
 
-        footrest.style.right = "140px";
-        footrest.style.bottom = "184px";
-
-        var newFootDeg = getCurrentRotation(footrest) - 30;
-        footrest.style.transform = "rotate(" + newFootDeg + "deg)";
-
-        var newBackDeg = getCurrentRotation(backrest) - 30;
-        backrest.style.transform = "rotate(" + newBackDeg + "deg)";
+            // Hack to compensate the fact that rotating the seat
+            // changes also location of the footrest.
+            document.getElementById("footrest").style.right = "140px";
+            document.getElementById("footrest").style.bottom = "184px";
+        }
     });
 
+    // Rotates seat down.
     seatDown.addEventListener('click', function() {
-        seat.style.background = "yellow";
-        seat.style.transform = "rotate(120deg)";
+        // Rotate the other parts only if not already at maximum position.
+        if (seat.rotate(30)) {
+            footrest.rotate(30);
+            backrest.rotate(30);
 
-        footrest.style.right = "120px";
-        footrest.style.bottom = "260px";
-
-        var newFootDeg = getCurrentRotation(footrest) + 30;
-        footrest.style.transform = "rotate(" + newFootDeg + "deg)";
-
-        var newBackDeg = getCurrentRotation(backrest) + 30;
-        backrest.style.transform = "rotate(" + newBackDeg + "deg)";
+            // Hack to compensate the fact that rotating the seat
+            // changes also location of the footrest.
+            document.getElementById("footrest").style.right = "110px";
+            document.getElementById("footrest").style.bottom = "260px";
+        }
     });
+};
 
-    function getCurrentRotation(element) {
-        var degrees = element.style.transform.match("[0-9]+")[0];
+/**
+ * Represents a rotatable chair part.
+ */
+function Part(id, startRotation, minRotation, maxRotation) {
+    this.degrees = startRotation;
+    this.minRotation = minRotation;
+    this.maxRotation = maxRotation;
+    this.element = document.getElementById(id);
 
-        return parseInt(degrees);
-    }
+    // Set initial rotation (needed to access it through element.style).
+    this.element.style.transform = "rotate(" + startRotation + "deg)";
+
+    /**
+     * Rotates the part to desired degree (within the min and max values).
+     */
+    this.rotate = function(degrees) {
+        var newDegree = this.degrees + degrees;
+
+        console.log(id + ": " + this.degrees + " + " + degrees + " = " + newDegree);
+
+        // Rotate upwards only if new degree is below the maximum allowed value.
+        if (newDegree > this.degrees && newDegree > this.maxRotation) {
+            console.log("The target value: " + newDegree + " is above the maximum allowed value: " + maxRotation);
+            return false;
+        }
+
+        // Rotate downwards only if new degree is above minimum allowed value.
+        if (newDegree < this.degrees && newDegree < this.minRotation) {
+            console.log("The target value: " + newDegree + " is below the minimum allowed value: " + minRotation);
+            return false;
+        }
+
+        this.element.style.transform = "rotate(" + newDegree + "deg)";
+
+        this.degrees = newDegree;
+
+        return true;
+    };
 };
